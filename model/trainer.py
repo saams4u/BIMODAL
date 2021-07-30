@@ -26,13 +26,13 @@ class Trainer():
 
         # Read all parameter from the .ini file
         self._config = configparser.ConfigParser()
-        self._config.read('../experiments/' + experiment_name + '.ini')
+        self._config.read('/content/BIMODAL/experiments/' + experiment_name + '.ini')
 
         self._model_type = self._config['MODEL']['model']
         self._experiment_name = experiment_name
         self._hidden_units = int(self._config['MODEL']['hidden_units'])
 
-        self._file_name = '../data/' + self._config['DATA']['data']
+        self._file_name = '/content/BIMODAL/data/' + self._config['DATA']['data']
         self._encoding_size = int(self._config['DATA']['encoding_size'])
         self._molecular_size = int(self._config['DATA']['molecular_size'])
 
@@ -64,7 +64,7 @@ class Trainer():
 
         self._data = self._encoder.encode_from_file(self._file_name)
 
-    def complete_run(self, stor_dir='../evaluation/', restart=False):
+    def complete_run(self, stor_dir='/content/BIMODAL/evaluation/', restart=False):
         '''Training without validation on complete data'''
 
         # Create directories
@@ -94,8 +94,8 @@ class Trainer():
         # Store total Statistics
         tot_stat = []
 
-        # only single fold
-        fold = 1
+        # set to do a 10 fold
+        fold = 10
 
         # Shuffle data before training (Data reshaped from (N_samples, N_augmentation, molecular_size, encoding_size)
         # to  (all_SMILES, molecular_size, encoding_size))
@@ -154,7 +154,7 @@ class Trainer():
                 stor_dir + '/' + self._experiment_name + '/statistic/stat_fold_' + str(fold) + '.csv',
                 header=None)
 
-    def single_run(self, stor_dir='../evaluation/', restart=False):
+    def single_run(self, stor_dir='/content/BIMODAL/evaluation/', restart=False):
         '''Training with validation and store data'''
 
         # Create directories
@@ -193,7 +193,7 @@ class Trainer():
         # Store validation loss
         tot_loss = []
 
-        # only single fold
+        # set to do a single run
         fold = 1
 
         for i in range(self._epochs):
@@ -268,7 +268,7 @@ class Trainer():
                 stor_dir + '/' + self._experiment_name + '/validation/val_fold_' + str(fold) + '.csv',
                 header=None)
 
-    def cross_validation(self, stor_dir='../evaluation/', restart=False):
+    def cross_validation(self, stor_dir='/content/BIMODAL/evaluation/', restart=False):
         '''Perform cross-validation and store data'''
 
         # Create directories
@@ -386,5 +386,3 @@ class Trainer():
                 # Store validation data
                 pd.DataFrame(np.array(tot_loss).reshape(-1, 1)).to_csv(
                     stor_dir + '/' + self._experiment_name + '/validation/val_fold_' + str(fold) + '.csv', header=None)
-
-
