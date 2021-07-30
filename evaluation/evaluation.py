@@ -9,7 +9,7 @@ import configparser
 import matplotlib
 import sys
 
-sys.path.insert(1, '../model/')
+sys.path.insert(1, '/content/BIMODAL/model/')
 from helper import clean_molecule, check_valid
 
 matplotlib.use('TkAgg')
@@ -25,7 +25,7 @@ class Evaluator():
 
         # Read parameter used during training
         self._config = configparser.ConfigParser()
-        self._config.read('../experiments/' + experiment_name + '.ini')
+        self._config.read('/content/BIMODAL/experiments/' + experiment_name + '.ini')
 
         self._model_type = self._config['MODEL']['model']
         self._experiment_name = experiment_name
@@ -43,11 +43,11 @@ class Evaluator():
         self._T = float(self._config['EVALUATION']['temp'])
         self._starting_token = self._config['EVALUATION']['starting_token']
 
-        if os.path.isfile('../data/' + self._file_name + '.csv'):
-            self._data = pd.read_csv('../data/' + self._file_name + '.csv', header=None).values[:, 0]
-        elif os.path.isfile('../data/' + self._file_name + '.tar.xz'):
+        if os.path.isfile('/content/BIMODAL/data/' + self._file_name + '.csv'):
+            self._data = pd.read_csv('/content/BIMODAL/data/' + self._file_name + '.csv', header=None).values[:, 0]
+        elif os.path.isfile('/content/BIMODAL/data/' + self._file_name + '.tar.xz'):
             # Skip first line since empty and last line since nan
-            self._data = pd.read_csv('../data/' + self._file_name + '.tar.xz', compression='xz', header=None).values[
+            self._data = pd.read_csv('/content/BIMODAL/data/' + self._file_name + '.tar.xz', compression='xz', header=None).values[
                          1:-1, 0]
         # Clean data from start, end and padding token
         for i, mol_dat in enumerate(self._data):
@@ -83,7 +83,7 @@ class Evaluator():
         plt.title('Statistic Training')
         plt.ylabel('Loss Per Token')
         plt.xlabel('Epoch')
-        plt.savefig(self._experiment_name + '/statistic/all_statistic.png')
+        plt.savefig('/content/BIMODAL/evaluation/' + self._experiment_name + '/statistic/all_statistic.png')
         plt.close()
 
     def eval_training(self, stor_dir='.'):
@@ -104,7 +104,7 @@ class Evaluator():
         plt.title('Training Loss')
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
-        plt.savefig(self._experiment_name + '/statistic/statistic.png')
+        plt.savefig('/content/BIMODAL/evaluation/' + self._experiment_name + '/statistic/statistic.png')
         plt.close()
 
     def eval_validation(self, stor_dir='.'):
@@ -122,7 +122,7 @@ class Evaluator():
         plt.title('Validation Loss')
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
-        plt.savefig(self._experiment_name + '/validation/validation.png')
+        plt.savefig('/content/BIMODAL/evaluation/' + self._experiment_name + '/validation/validation.png')
         plt.close()
 
     def check_with_training_data(self, mol):
@@ -214,6 +214,6 @@ class Evaluator():
 
         # Store data
         data = np.vstack((mean_unique, std_unique, mean_valid, std_valid, mean_novel, std_novel))
-        pd.DataFrame(data).to_csv(self._experiment_name + '/molecules/' + self._experiment_name + '_data.csv')
+        pd.DataFrame(data).to_csv('/content/BIMODAL/evaluation/' + self._experiment_name + '/molecules/' + self._experiment_name + '_data.csv')
 
         plt.show()
