@@ -32,7 +32,7 @@ class Preprocessor:
         self._data = np.squeeze(self._data)
         return
 
-    def preprocess(self, name, aug=1, length=74):
+    def preprocess(self, name, aug=1, length=128):
         """
         Preprocess data depending on model type
         :param name:    Name of the model
