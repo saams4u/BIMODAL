@@ -157,7 +157,7 @@ class Preprocessor:
             self.remove_duplicates()
         return
 
-    def remove_length(self, min_len=34, max_len=74):
+    def remove_length(self, min_len=34, max_len=128):
         """Keep only SMILES with a length between min and max
         :param  min_len:    minimal length (-1: no minimal length)
                 max_len:    maximal length (-1: no maximal length)
