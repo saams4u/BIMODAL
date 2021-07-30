@@ -27,6 +27,9 @@ class Preprocessor:
         elif os.path.isfile(name + '.tar.xz'):
             # Skip first line since empty and last line since nan
             self._data = pd.read_csv(name + '.tar.xz', compression='xz', header=None).values[1:-1, 0]
+        elif os.path.isfile(name + '.smi.zip'):
+            # Skip first line since empty and last line since nan
+            self._data = pd.read_csv(name + '.smi.zip', compression='zip', header=None).values[1:-1, 0]
 
         # Remove empty dimensions
         self._data = np.squeeze(self._data)
