@@ -94,8 +94,8 @@ class Trainer():
         # Store total Statistics
         tot_stat = []
 
-        # set to do a 10 fold
-        fold = 10
+        # only single fold
+        fold = 1
 
         # Shuffle data before training (Data reshaped from (N_samples, N_augmentation, molecular_size, encoding_size)
         # to  (all_SMILES, molecular_size, encoding_size))
@@ -193,7 +193,7 @@ class Trainer():
         # Store validation loss
         tot_loss = []
 
-        # set to do a single run
+        # only single fold
         fold = 1
 
         for i in range(self._epochs):
